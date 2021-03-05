@@ -12,7 +12,9 @@ module.exports.signup = async (req, res) => {
 
     //createUser(firstName, lastName, email, hashedPass)
 
-    res.cookie("cookiename", "cookiecontent", {httpOnly: false}).send("good")
+    const token = jwt.sign({"id":"test"}, process.env.TOKEN_SECRET)
+
+    res.cookie("cookiename", "cookiecontent", {httpOnly: false}).json(token)
 }
 
 module.exports.signin = async (req, res) => {

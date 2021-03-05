@@ -2,6 +2,7 @@ const express = require("express")
 const userRoute = require("./routes/user.routes")
 const cors = require("cors")
 const cookieParser = require('cookie-parser');
+require("dotenv").config({path: "./config/.env"})
 
 const app = express()
 
