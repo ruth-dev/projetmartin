@@ -10,14 +10,17 @@ module.exports.signup = async (req, res) => {
     const hash = await bcrypt.genSalt(10)
     const hashedPass = await bcrypt.hash(password, hash)
 
-    //createUser(firstName, lastName, email, hashedPass)
+    createUser(firstName, lastName, email, hashedPass).then(id => {    
+        const token = jwt.sign({"id":id}, process.env.TOKEN_SECRET)
+        res.cookie("cookiename", "cookiecontent", {httpOnly: false}).json(token)
+    })
 
-    const token = jwt.sign({"id":"test"}, process.env.TOKEN_SECRET)
-
-    res.cookie("cookiename", "cookiecontent", {httpOnly: false}).json(token)
+    //this.signin(req, res)
 }
 
 module.exports.signin = async (req, res) => {
-    console.log(req.cookies)
+    //console.log(req.cookies)
+    const a = jwt.verify(req.body.token, process.env.TOKEN_SECRET)
+    console.log(a)
     res.send("a")
 }
