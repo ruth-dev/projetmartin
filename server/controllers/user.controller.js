@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const { createUser } = require("../models/auth")
+const { createUser, getPassword, getUser } = require("../models/auth")
 const jwt = require("jsonwebtoken")
 
 module.exports.signup = async (req, res) => {
@@ -12,15 +12,28 @@ module.exports.signup = async (req, res) => {
 
     createUser(firstName, lastName, email, hashedPass).then(id => {    
         const token = jwt.sign({"id":id}, process.env.TOKEN_SECRET)
-        res.cookie("cookiename", "cookiecontent", {httpOnly: false}).json(token)
+        res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success"})
     })
-
-    //this.signin(req, res)
 }
 
 module.exports.signin = async (req, res) => {
-    //console.log(req.cookies)
-    const a = jwt.verify(req.body.token, process.env.TOKEN_SECRET)
-    console.log(a)
-    res.send("a")
+    const { email, password} = req.body;
+
+    const hashedPass = await getPassword(email)
+
+    if(hashedPass.length <= 0) return res.status(200).json({"status":"Email doesn't exist"})
+
+    const isValid = await bcrypt.compare(password, hashedPass[0].password)
+
+    switch(isValid){
+        case true:
+            const user = await getUser(email)
+            const token = jwt.sign({user}, process.env.TOKEN_SECRET)
+
+            res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success"})
+        break;
+        case false:
+            res.json({"status": "wrong password"})
+        break;
+    }
 }

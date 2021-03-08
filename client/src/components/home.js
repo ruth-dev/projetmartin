@@ -6,8 +6,8 @@ export default function Login(){
     return (
         <>
             <h1>Accueil</h1>
-            <Link to="/register">Créer un compte</Link><br></br>
-            <Link to="/login">Se connecter</Link>
+            <Link to="/signup">Créer un compte</Link><br></br>
+            <Link to="/signin">Se connecter</Link>
         </>
     )
 }
