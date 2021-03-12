@@ -38,3 +38,19 @@ module.exports.getUser = (email) => {
         })
     }) 
 }
+
+/**
+ * Check if email is already used
+ * @param {string} email 
+ */
+module.exports.checkEmailExist = (email) => {
+    return new Promise(resolve => {
+        con.query(`SELECT * FROM users WHERE email = ?`, email, (err, result) => {
+            if(result.length <= 0){
+                resolve(true)
+            }else{
+                resolve(false)
+            }
+        })
+    })
+}

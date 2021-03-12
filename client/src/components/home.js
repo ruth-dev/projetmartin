@@ -7,7 +7,8 @@ export default function Login(){
         <>
             <h1>Accueil</h1>
             <Link to="/signup">Créer un compte</Link><br></br>
-            <Link to="/signin">Se connecter</Link>
+            <Link to="/signin">Se connecter</Link><br />
+            <Link to="/test">Test page router</Link>
         </>
     )
 }
