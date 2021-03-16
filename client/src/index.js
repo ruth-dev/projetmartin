@@ -15,7 +15,6 @@ const checkIsLogged = async () =>{
 let isLogged;
 checkIsLogged().then(data => console.log(data))
 
-
 const routing = (
   <Router>
     <Switch>
