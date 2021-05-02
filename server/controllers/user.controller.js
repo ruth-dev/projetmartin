@@ -31,13 +31,27 @@ module.exports.signin = async (req, res) => {
         case true:
             const user = await getUser(email)
             const token = jwt.sign({user}, process.env.TOKEN_SECRET)
-            res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success"})
+            res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success", user})
         break;
         default:
             res.json({"status": "wrong password"})
     }
 }
 
+module.exports.logout = (req, res) => {
+    res.cookie("authToken", "", {httpOnly: true, expires: 0}).status(200).json({"status": "success"})
+}
+
 module.exports.checkToken = async (req, res) => {
-    res.json(true)
+    const token = req.cookies.authToken
+    if(token){
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, result) => {
+            if(err) res.status(400).json("Error 400!")
+            const infos = jwt.decode(token)
+            res.json({
+                "status": "success",
+                "user": infos.user[0]
+            })
+        })
+    }
 }

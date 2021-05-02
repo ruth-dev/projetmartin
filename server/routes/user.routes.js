@@ -4,6 +4,7 @@ const verifyToken = require("../middlewares/verifyToken")
 
 router.post("/signup", userController.signup)
 router.post("/signin", userController.signin)
-router.post("/checkToken", verifyToken , userController.checkToken)
+router.post("/logout", verifyToken, userController.logout)
+router.post("/checkToken", verifyToken, userController.checkToken)
 
 module.exports = router

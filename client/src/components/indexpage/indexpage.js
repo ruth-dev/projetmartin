@@ -1,18 +1,24 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
+import AuthContext from "../../context/authContext"
 
 export default function Signin(){
-    let history = useHistory();
+    let history = useHistory()
+
+    const {updateIsLogged, updateUserInfo} = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const handleRegister=(e)=>{
         e.preventDefault()
-        axios.post("http://localhost:4000/api/user/signin", {email, password}, {withCredentials: true}).then(data => {
-            console.log(data.data)
-            if(data.data == "good" && data.status == 200) history.push("/")
+        axios.post("http://localhost:4000/api/user/signin", {email, password}, {withCredentials: true}).then(res => {
+            if(res.data.status == "success" && res.status == 200) {
+                updateIsLogged(true)
+                updateUserInfo(res.data.user[0])
+                history.push("/")
+            }
         })
     }
     return (
