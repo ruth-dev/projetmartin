@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600&display=swap');
+
+* {
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+body {
+    background: rgb(241, 241, 241);
+}
+
+textarea, 
+input[type=text],
+input[type=password]{ 
+    outline: none;
+    border:none;
+}

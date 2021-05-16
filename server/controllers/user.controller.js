@@ -3,7 +3,7 @@ const { createUser, getPassword, getUser, checkEmailExist } = require("../models
 const jwt = require("jsonwebtoken")
 
 module.exports.signup = async (req, res) => {
-    const { email, lastName, firstName, password } = req.body
+    const { email, pseudo, password } = req.body
 
     if(!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) return res.status(200).json({"status":"error", "error":"Email not correct"})
 
@@ -12,9 +12,10 @@ module.exports.signup = async (req, res) => {
     const hash = await bcrypt.genSalt(10)
     const hashedPass = await bcrypt.hash(password, hash)
 
-    createUser(firstName, lastName, email, hashedPass).then(id => {    
-        const token = jwt.sign({"id":id}, process.env.TOKEN_SECRET)
-        res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success"})
+    createUser(pseudo, email, hashedPass).then(async id => {    
+        const user = await getUser(email)
+        const token = jwt.sign({user}, process.env.TOKEN_SECRET)
+        res.cookie("authToken", token, {httpOnly: true, expires: new Date(Date.now() + 30 * 24 * 3600000)}).json({token, "status": "success", user})
     })
 }
 

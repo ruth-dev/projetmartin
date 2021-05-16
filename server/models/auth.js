@@ -2,14 +2,13 @@ const con = require("./db")
 
 /**
  * Create new user and return id
- * @param {string} firstName 
- * @param {string} lastName 
+ * @param {string} pseudo 
  * @param {string} email 
  * @param {string} password 
  */
-module.exports.createUser = (firstName, lastName, email, password) => {
+module.exports.createUser = (pseudo, email, password) => {
     return new Promise(resolve => {
-        con.query(`INSERT INTO users (firstname, lastName, email, password) VALUES (?, ?, ?, ?)`,[firstName, lastName,email,password], (err, result) => {
+        con.query(`INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)`,[pseudo, email, password], (err, result) => {
             return resolve(result.insertId)
         })
     })
@@ -33,7 +32,7 @@ module.exports.getPassword = (email) => {
  */
 module.exports.getUser = (email) => {
     return new Promise(resolve => {
-        con.query(`SELECT id, lastName, firstName, email FROM users WHERE email = ?`, email, (err, result) => {
+        con.query(`SELECT id, pseudo, email FROM users WHERE email = ?`, email, (err, result) => {
             return resolve(result)
         })
     }) 

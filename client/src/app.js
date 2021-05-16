@@ -5,7 +5,7 @@ import axios from "axios"
 // Components
 import Signup from "./components/signup/signup"
 import Index from "./components/indexpage/indexpage"
-import Home from "./components/home"  
+import Home from "./components/home/home"  
 import errorPage from "./components/errors/404"
 
 // Context

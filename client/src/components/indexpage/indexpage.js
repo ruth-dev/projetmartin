@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
 import AuthContext from "../../context/authContext"
+import "./indexpage.css"
 
 export default function Signin(){
     let history = useHistory()
@@ -23,12 +24,26 @@ export default function Signin(){
     }
     return (
         <>
-            <h1>Se connecter</h1>
-            <form onSubmit={handleRegister}>                
-                <input type="text" placeholder="email" onChange={(e)=>setEmail(e.target.value)} value={email}/>
-                <input type="password" placeholder="mot de passe" onChange={(e)=>setPassword(e.target.value)} value={password}/>
-                <input type="submit" value="S'enregistrer" />
-            </form>
+            <div className="signin">
+                <div className="signinContainer">
+                    <form onSubmit={handleRegister}>
+                        <div>
+                            <div className="inputContainer">
+                                <input type="text" onChange={(e)=>setEmail(e.target.value)} value={email} id="email" required/>
+                                <label htmlFor="email">Adresse e-mail</label>
+                                <div className="bar" />
+                            </div>
+                            <div className="inputContainer">
+                                <input type="password" onChange={(e)=>setPassword(e.target.value)} value={password} id="password" required/>
+                                <label htmlFor="password">Mot de passe</label>
+                                <div className="bar"></div>
+                            </div>
+                            <input type="submit" value="Se connecter" />
+                        </div>
+                    </form>
+                    <div className="btnSignup">Pas encore inscrit ? <a href="http://localhost:3000/signup">S'inscrire</a></div>
+                </div>
+            </div>
         </>
     )
 }
