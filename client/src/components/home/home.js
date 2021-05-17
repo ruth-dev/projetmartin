@@ -47,7 +47,8 @@ export default function Home (){
                         <button type="submit">Poster</button>
                     </form>
                 </div>
-                <Link id={1} />
+                <Link id={1} userId={user.id}/>
+                <Link id={2} userId={user.id}/>
             </div>
         </>
     )

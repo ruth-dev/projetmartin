@@ -1,4 +1,4 @@
-const { createLink, get, up, down } = require("../models/links")
+const { createLink, get, getUpVote, getDownVote, up, down } = require("../models/links")
 
 module.exports.new = (req, res) => {
     const { id, title, content } = req.body
@@ -8,25 +8,34 @@ module.exports.new = (req, res) => {
     })
 }
 
-module.exports.get = (req, res) => {
+module.exports.get = async (req, res) => {
     const { id } = req.params
-    get(id).then(link => res.json({"status": "success", link}))
+    const link = await get(id)
+    const upvote = await getUpVote(id)
+    const downvote = await getDownVote(id)
+    const fullLink = {
+        link,
+        "upvote" : Object.values(upvote),
+        "downvote" : Object.values(downvote)
+    }
+    res.json({"status": "success", fullLink})
+
 }
 
-module.exports.up = (req, res) => {
+module.exports.up = async (req, res) => {
     const { id } = req.params
-    const { vote } = req.body
+    const { userId } = req.body
 
-    up(id, vote).then(data => {
-        res.json({"status": "success", "vote":data[0].upvote})  
-    })
+    const vote = await up(id, userId)
+    const downvote = await getDownVote(id)
+    res.json({"status": "success", "vote": Object.values(vote), "downvote" : Object.values(downvote)})  
 }
 
-module.exports.down = (req, res) => {
+module.exports.down = async (req, res) => {
     const { id } = req.params
-    const { vote } = req.body
+    const { userId } = req.body
 
-    down(id, vote).then(data => {
-        res.json({"status": "success", "vote":data[0].downvote})  
-    })
+    const vote = await down(id, userId)
+    const upvote = await getUpVote(id)
+    res.json({"status": "success", "vote": Object.values(vote), "upvote": Object.values(upvote)})  
 }

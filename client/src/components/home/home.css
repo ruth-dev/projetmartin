@@ -34,6 +34,7 @@
     width:70%;
     margin-top:50px;
     margin-left:15%;
+    padding-bottom: 150px;
 }
 
 .center .newLink{
@@ -145,4 +146,48 @@
 
 .center .linkContainer .votes .up span{
     margin-left:5px;
+}
+
+.center .linkContainer .paramsBtn{
+    border-radius: 10px;
+    position: absolute;
+    top:20px;
+    right:30px;
+    height:30px;
+    width:30px;
+    background:#1484d7;
+    color:white;
+    cursor:pointer;
+    transition: width 300ms, height 300ms;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.center .linkContainer .paramsBtn i{
+    position: absolute;
+    top:7px;
+    right:9px;
+    height:14px;
+    width:14px;
+}
+
+.center .linkContainer .paramsBtn:hover{
+    height:100px;
+    width:90px;
+}
+
+.center .linkContainer .paramsBtn span{
+    position: absolute;
+    top:30px;
+    cursor: pointer;
+}
+
+.center .linkContainer .paramsBtn span:nth-child(2){
+    position: absolute;
+    top:55px;
+}
+
+.center .linkContainer .paramsBtn span:hover{
+    text-decoration: underline;
 }
