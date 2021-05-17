@@ -56,7 +56,7 @@ export default function Link (props){
                 </div>
                 {linkUserId === userId ?
                     <div className="paramsBtn">
-                        <i class="fas fa-cog"></i>
+                        <i className="fas fa-cog"></i>
                         <span>Supprimer</span>
                         <span>Editer</span>
                     </div>

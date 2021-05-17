@@ -27,6 +27,14 @@ module.exports.get = (id) =>{
     })
 }
 
+module.exports.getAll = () =>{
+    return new Promise(resolve =>{
+        con.query(`SELECT id FROM links ORDER BY upvote DESC LIMIT 10`, [], (err, result)=>{
+            return resolve(result)
+        })
+    })
+}
+
 module.exports.getUpVote = (id) =>{
     return new Promise(resolve =>{
         con.query(`SELECT COUNT(*) FROM votes WHERE linkId = ? AND vote = 1`, [id], (err, result)=>{
@@ -49,17 +57,20 @@ module.exports.up = (id, userId) =>{
             if(result.length > 0){
                 if(result[0].vote === 1){
                     con.query(`DELETE FROM votes WHERE linkId = ? AND userId = ?`, [id, userId])
+                    con.query(`UPDATE links SET upvote = upvote - 1 WHERE id = ?`, [id])
                     con.query(`SELECT COUNT(*) FROM votes WHERE linkId = ? AND vote = 1`, [id], (err, result)=>{
                         return resolve(result[0])
                     })
                 }else if(result[0].vote === 0){
                     con.query(`UPDATE votes SET vote = 1 WHERE linkId = ? AND userId = ?`, [id, userId])
+                    con.query(`UPDATE links SET upvote = upvote + 1 WHERE id = ?`, [id])
                     con.query(`SELECT COUNT(*) FROM votes WHERE linkId = ? AND vote = 1`, [id], (err, result)=>{
                         return resolve(result[0])
                     })
                 }
             }else{
                 con.query(`INSERT INTO votes (linkId, userId, vote) VALUES (?, ?, 1)`, [id, userId])
+                con.query(`UPDATE links SET upvote = upvote + 1 WHERE id = ?`, [id])
                 con.query(`SELECT COUNT(*) FROM votes WHERE linkId = ? AND vote = 1`, [id], (err, result)=>{
                     return resolve(result[0])
                 })
@@ -79,6 +90,7 @@ module.exports.down = (id, userId) =>{
                     })
                 }else if(result[0].vote === 1){
                     con.query(`UPDATE votes SET vote = 0 WHERE linkId = ? AND userId = ?`, [id, userId])
+                    con.query(`UPDATE links SET upvote = upvote - 1 WHERE id = ?`, [id])
                     con.query(`SELECT COUNT(*) FROM votes WHERE linkId = ? AND vote = 0`, [id], (err, result)=>{
                         return resolve(result[0])
                     })

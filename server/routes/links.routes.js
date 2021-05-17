@@ -6,5 +6,6 @@ router.post("/new", linksController.new)
 router.post("/get/:id", linksController.get)
 router.post("/up/:id", linksController.up)
 router.post("/down/:id", linksController.down)
+router.post("/getall", linksController.getAll)
 
 module.exports = router

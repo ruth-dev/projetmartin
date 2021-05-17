@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import axios from "axios"
 import authContext from "../../context/authContext"
 
@@ -10,6 +10,7 @@ export default function Home (){
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+    const [links, setLinks] = useState({})
 
     const logoutHandler = () => {
         axios.post("http://localhost:4000/api/user/logout", [], {withCredentials:true}).then(res => {
@@ -29,6 +30,14 @@ export default function Home (){
         })
     }
 
+    useEffect(()=>{
+        axios.post("http://localhost:4000/api/links/getall", [],  {withCredentials:true}).then(res => {
+            if(res.data.status === "success" && res.status === 200){
+                setLinks(res.data.links)
+            }
+        })
+    },[])
+
     return (
         <>
             <div className="nav">
@@ -47,8 +56,9 @@ export default function Home (){
                         <button type="submit">Poster</button>
                     </form>
                 </div>
-                <Link id={1} userId={user.id}/>
-                <Link id={2} userId={user.id}/>
+                { Object.entries(links).map((id, i) => 
+                    <Link id={id[1].id} userId={user.id} key={i}/>    
+                )}
             </div>
         </>
     )

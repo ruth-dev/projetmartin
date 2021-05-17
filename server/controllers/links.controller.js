@@ -1,4 +1,4 @@
-const { createLink, get, getUpVote, getDownVote, up, down } = require("../models/links")
+const { createLink, get, getAll, getUpVote, getDownVote, up, down } = require("../models/links")
 
 module.exports.new = (req, res) => {
     const { id, title, content } = req.body
@@ -19,7 +19,11 @@ module.exports.get = async (req, res) => {
         "downvote" : Object.values(downvote)
     }
     res.json({"status": "success", fullLink})
+}
 
+module.exports.getAll = async (req, res) => {
+    const links = await getAll()
+    res.json({"status":"success", links})
 }
 
 module.exports.up = async (req, res) => {
