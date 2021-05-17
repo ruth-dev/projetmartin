@@ -1,0 +1,68 @@
+# Langages utilisées :
+- Javascript (nodejs)
+- html
+- css
+
+# Qu'est ce qu'un framework ? (https://www.vigicorp.fr/blog/qu-est-ce-qu-un-framework/)
+
+###########################################################################################################################################################
+# Frameworks utilisés :
+- Reactjs (https://fr.reactjs.org/)
+- Expressjs (https://expressjs.com/fr/)
+
+###########################################################################################################################################################
+# Installation :
+
+Ressources requises :
+Nodejs, serveur (wamp(windows), xampp, mamp(macos) : local)
+
+Actions à effectuer :
+Lancer le serveur, se rendre sur phpmyadmin (local), créer une base de donnée puis importer la base fournie
+Ouvrir le projet avec vscode, ouvrir un terminal(serveur front), effectuer la commande "npm install", "cd client", "npm install", "npm start"
+Ouvrir un nouveau terminal vscode (tout en gardant le premier, serveur back), effectuer la commande "cs server", "npm install", "npm start"
+
+###########################################################################################################################################################
+# Architecture :
+client : Partie front du projet
+    -> node_modules : toutes les libs utilisées par reactjs
+    -> public : fichiers publics
+        -> index.html : principal ou tout l'html est généré dans la balise "id"
+        -> global.css : principal fichier css
+    -> src : fichiers js
+        -> components : tous les composants
+        -> context : permet globalement de pouvoir utiliser des variables n'importe où, ici l'utilisateur
+        -> app.js : composant clé au fonctionnement de l'app
+        -> index.js : principal fichier javascript, endroit où le fichier app.js est "lancé"
+
+node_modules : toutes les libs utilisées par reactjs
+
+server : Partie back du projet
+    -> config , .env : fichier de configuration où la clé privée est stockée
+    -> controllers : fichiers de logique de chaque requete serveur
+    -> middlewares, verifyToken.js : fichier permettant de vérifier si le token est valide avant de continuer la requête
+    -> models : requêtes vers la base de données
+        -> auth.js : requêtes liées à l'authentification
+        -> db.js : connexion à la base de données
+        -> links.js : requêtes liées aux liens
+    node_modules : toutes les libs utilisées par expressjs et autres
+    -> routes : tous les chemins de requête
+    -> main.js : principal fichier d'expressjs
+
+###########################################################################################################################################################
+# Exemple de fonctionnement d'une requête : Un utilisateur veut se connecter à son compte
+
+La partie front (reactjs) envoie une requête vers le serveur avec comme url "http://localhost:4000/api/user/signin" avec comme 
+paramètres l'email et son mot de passe (en clair).
+
+Chemin côté serveur de la requete :
+-> main.js (fichier d'entrée) 
+-> user.routes.js (récupere la fonction nécessaire, ici "userController.signin") 
+-> user.controller.js (récupere les données, chiffre le mot de passe puis utilise la fonction "getPassword")
+-> auth.js (execution de la fonction "getPassword", retourne le mot de passe chiffré dans la base de donnée)
+-> user.controller.js (Compare les mots deux mots de passe chiffrés, si correct permet la connexion sinon retourne une erreur)
+-> Si l'accès est autorisé : génere un token d'identifications en cookies qui est vérifié à chaque requête
+
+En fonction de la réponse, le front (react) rejete la connexion ou l'autorise : dans ce cas l'utilisateur est redirigé 
+vers la page "home" et le context est update avec les informations de l'utilisateur
+
+Même procédé à chaque requête
