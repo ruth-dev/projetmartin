@@ -104,3 +104,11 @@ module.exports.down = (id, userId) =>{
         })
     })
 }
+
+module.exports.deleteOne = (id) =>{
+    return new Promise(resolve =>{
+        con.query(`DELETE FROM links WHERE id = ?`, [id])
+        con.query(`DELETE FROM votes WHERE linkId = ?`, [id])
+        resolve("success")
+    })
+}

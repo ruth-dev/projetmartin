@@ -1,4 +1,4 @@
-const { createLink, get, getAll, getUpVote, getDownVote, up, down } = require("../models/links")
+const { createLink, get, getAll, getUpVote, getDownVote, up, down, deleteOne } = require("../models/links")
 
 module.exports.new = (req, res) => {
     const { id, title, content } = req.body
@@ -42,4 +42,10 @@ module.exports.down = async (req, res) => {
     const vote = await down(id, userId)
     const upvote = await getUpVote(id)
     res.json({"status": "success", "vote": Object.values(vote), "upvote": Object.values(upvote)})  
+}
+
+module.exports.delete = (req, res) => {
+    const {id} = req.params
+
+    deleteOne(id).then(result => res.json({"status":"success"}))
 }

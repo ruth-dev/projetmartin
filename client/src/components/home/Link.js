@@ -9,7 +9,7 @@ export default function Link (props){
     const [upVote, setUpVote] = useState()
     const [downVote, setDownVote] = useState()
 
-    const upVotes = () =>{
+    const upVotes = () => {
         axios.post("http://localhost:4000/api/links/up/"+id, {userId}, {withCredentials:true}).then(res => {
             if(res.data.status === "success" && res.status === 200){
                 setUpVote(res.data.vote)
@@ -18,11 +18,19 @@ export default function Link (props){
         })
     }
 
-    const downVotes = () =>{
+    const downVotes = () => {
         axios.post("http://localhost:4000/api/links/down/"+id, {userId}, {withCredentials:true}).then(res => {
             if(res.data.status === "success" && res.status === 200){
                 setDownVote(res.data.vote)
                 setUpVote(res.data.upvote)
+            }
+        })
+    }
+
+    const deleteHandler = () => {
+        axios.post("http://localhost:4000/api/links/delete/"+id, [], {withCredentials:true}).then(res => {
+            if(res.data.status === "success" && res.status === 200){
+                window.location = "/"
             }
         })
     }
@@ -57,7 +65,7 @@ export default function Link (props){
                 {linkUserId === userId ?
                     <div className="paramsBtn">
                         <i className="fas fa-cog"></i>
-                        <span>Supprimer</span>
+                        <span onClick={deleteHandler}>Supprimer</span>
                         <span>Editer</span>
                     </div>
                 : ""}

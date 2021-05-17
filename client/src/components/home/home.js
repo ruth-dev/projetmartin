@@ -26,6 +26,7 @@ export default function Home (){
             if(res.data.status === "success" && res.status === 200){
                 setTitle("")
                 setContent("")
+                window.location = "/"
             }
         })
     }
