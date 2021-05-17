@@ -8,7 +8,7 @@ const con = require("./db")
  */
 module.exports.createLink = (id, title, content) => {
     return new Promise(resolve => {
-        con.query(`INSERT INTO links (userId, title, content) VALUES (?, ?, ?)`,[id, title, content], (err, result) => {
+        con.query(`INSERT INTO links (userId, title, content, upvote) VALUES (?, ?, ?, 0)`,[id, title, content], (err, result) => {
             return resolve(result.insertId)
         })
     })
