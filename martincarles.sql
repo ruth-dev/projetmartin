@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 18 mai 2021 à 10:52
+-- Généré le : mar. 18 mai 2021 à 10:55
 -- Version du serveur :  10.4.17-MariaDB
 -- Version de PHP : 7.3.27
 
@@ -35,13 +35,6 @@ CREATE TABLE `links` (
   `upvote` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `links`
---
-
-INSERT INTO `links` (`id`, `userId`, `title`, `content`, `upvote`) VALUES
-(2, 1, 'Second article utilisateur différent', 'Contenu second article', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -55,13 +48,6 @@ CREATE TABLE `users` (
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`id`, `email`, `pseudo`, `password`) VALUES
-(1, 'testuser@mail.com', 'Erwan', '$2b$10$lsthsxQf7oyy7cUZ0q9knOrIxS59KKeUUQL8x3DEKI07HmTfE9Hdy');
-
 -- --------------------------------------------------------
 
 --
@@ -74,13 +60,6 @@ CREATE TABLE `votes` (
   `userId` int(11) NOT NULL,
   `vote` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `votes`
---
-
-INSERT INTO `votes` (`id`, `linkId`, `userId`, `vote`) VALUES
-(28, 2, 1, 0);
 
 --
 -- Index pour les tables déchargées
