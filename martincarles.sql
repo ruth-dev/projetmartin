@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 17 mai 2021 à 20:55
+-- Généré le : mar. 18 mai 2021 à 10:52
 -- Version du serveur :  10.4.17-MariaDB
 -- Version de PHP : 7.3.27
 
@@ -40,7 +40,7 @@ CREATE TABLE `links` (
 --
 
 INSERT INTO `links` (`id`, `userId`, `title`, `content`, `upvote`) VALUES
-(2, 2, 'Second article utilisateur différent', 'Contenu second article', 1);
+(2, 1, 'Second article utilisateur différent', 'Contenu second article', 1);
 
 -- --------------------------------------------------------
 
@@ -76,6 +76,13 @@ CREATE TABLE `votes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Déchargement des données de la table `votes`
+--
+
+INSERT INTO `votes` (`id`, `linkId`, `userId`, `vote`) VALUES
+(28, 2, 1, 0);
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -105,7 +112,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT pour la table `links`
 --
 ALTER TABLE `links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `users`
@@ -117,7 +124,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
